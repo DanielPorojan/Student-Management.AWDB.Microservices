@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Studenți</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+  <h2>Lista Studenților</h2>
+  <form th:action="@{/studenti}" method="post" class="row g-3">
+    <input type="hidden" name="id" th:value="${student?.id}">
+    <div class="col-md-4"><input class="form-control" name="firstName" placeholder="Prenume" required></div>
+    <div class="col-md-4"><input class="form-control" name="lastName" placeholder="Nume" required></div>
+    <div class="col-md-4"><input class="form-control" name="email" placeholder="Email" required></div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Adaugă</button></div>
+  </form>
+  <hr>
+  <table class="table table-striped">
+    <thead><tr><th>ID</th><th>Prenume</th><th>Nume</th><th>Email</th><th>Acțiuni</th></tr></thead>
+    <tbody>
+      <tr th:each="s : ${studenti}">
+        <td th:text="${s.id}">1</td>
+        <td th:text="${s.firstName}">Prenume</td>
+        <td th:text="${s.lastName}">Nume</td>
+        <td th:text="${s.email}">email@example.com</td>
+        <td>
+          <form th:action="@{/studenti/delete}" method="post" style="display:inline">
+            <input type="hidden" name="id" th:value="${s.id}">
+            <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<form th:action="@{/login}" method="post" th:object="${loginRequest}">
+    <label for="email">Email:</label>
+    <input type="email" th:field="*{email}" required />
+
+    <label for="password">Password:</label>
+    <input type="password" th:field="*{password}" required />
+
+    <button type="submit">Autentificare</button>
+</form>
+
+<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+<p>Nu ai cont? <a th:href="@{/register}">Înregistrează-te</a></p>

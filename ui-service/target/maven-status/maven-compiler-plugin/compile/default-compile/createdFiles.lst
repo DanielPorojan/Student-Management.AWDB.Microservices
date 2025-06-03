@@ -1,0 +1,12 @@
+com\ui\model\RegisterRequest.class
+com\ui\controller\LoginController.class
+com\ui\model\LoginRequest.class
+com\ui\controller\ProfessorController.class
+com\ui\service\AuthClient.class
+com\ui\controller\StudentController.class
+com\ui\model\Professor.class
+com\ui\model\Student.class
+com\ui\config\SecurityConfig.class
+com\ui\model\LoginResponse.class
+com\ui\controller\RegisterController.class
+com\ui\UiServiceApplication.class

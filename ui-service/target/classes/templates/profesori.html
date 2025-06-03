@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profesor Management</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ProfesorMgmt</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link active" href="/profesori">Studenți</a></li>
+        <li class="nav-item"><a class="nav-link" href="/profesori">Profesori</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+  <h2>Lista Studenților</h2>
+  <button class="btn btn-success mb-3" onclick="showAddForm()">Adaugă Profesor</button>
+  <table class="table table-striped">
+    <thead><tr><th>ID</th><th>Prenume</th><th>Nume</th><th>Email</th><th>Acțiuni</th></tr></thead>
+    <tbody>
+      <tr th:each="profesor : ${profesori}">
+        <td th:text="${profesor.id}">1</td>
+        <td th:text="${profesor.firstName}">Prenume</td>
+        <td th:text="${profesor.lastName}">Nume</td>
+        <td>
+          <button class="btn btn-primary btn-sm" onclick="editProfesor([[${profesor.id}]], '[[${profesor.firstName}]]', '[[${profesor.lastName}]]', '[[${profesor.email}]]')">Editează</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete([[${profesor.id}]])">Șterge</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal Form -->
+<div class="modal fade" id="profesorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="profesorForm" method="post">
+      <div class="modal-header"><h5 class="modal-title" id="modalTitle">Profesor</h5></div>
+      <div class="modal-body">
+        <input type="hidden" id="profesorId">
+        <div class="mb-3"><label class="form-label">Prenume</label><input type="text" class="form-control" id="firstName" required></div>
+        <div class="mb-3"><label class="form-label">Nume</label><input type="text" class="form-control" id="lastName" required></div>
+        <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="email" required></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anulează</button>
+        <button type="submit" class="btn btn-primary">Salvează</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation -->
+<script>
+function confirmDelete(id) {
+  if (confirm("Ești sigur că vrei să ștergi acest profesor?")) {
+    fetch('/profesor-service/profesors/' + id, { method: 'DELETE' })
+      .then(() => location.reload())
+      .catch(err => alert("Eroare la ștergere"));
+  }
+}
+
+function showAddForm() {
+  document.getElementById('modalTitle').textContent = 'Adaugă Profesor';
+  document.getElementById('profesorId').value = '';
+  document.getElementById('firstName').value = '';
+  document.getElementById('lastName').value = '';
+  document.getElementById('email').value = '';
+  new bootstrap.Modal(document.getElementById('profesorModal')).show();
+}
+
+function editProfesor(id, firstName, lastName, email) {
+  document.getElementById('modalTitle').textContent = 'Editează Profesor';
+  document.getElementById('profesorId').value = id;
+  document.getElementById('firstName').value = firstName;
+  document.getElementById('lastName').value = lastName;
+  document.getElementById('email').value = email;
+  new bootstrap.Modal(document.getElementById('profesorModal')).show();
+}
+
+document.getElementById('profesorForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const id = document.getElementById('profesorId').value;
+  const payload = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value
+  };
+  const method = id ? 'PUT' : 'POST';
+  const url = id ? '/profesor-service/profesors/' + id : '/profesor-service/profesors';
+
+  fetch(url, {
+    method: method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(() => location.reload())
+    .catch(err => alert("Eroare la salvare"));
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
