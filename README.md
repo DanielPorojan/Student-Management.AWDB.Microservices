@@ -10,8 +10,6 @@ Proiectul este format din următoarele servicii:
 
 ### 1. **API Gateway (`api-gateway`)**
 - Responsabil pentru rutarea cererilor către microserviciile interne.
-- Asigură logica de autentificare și autorizare la nivel global.
-- Implementat probabil cu Spring Cloud Gateway.
 
 ### 2. **Service Discovery (`discovery-server`)**
 - Utilizează Eureka pentru înregistrarea și descoperirea serviciilor.
@@ -23,7 +21,7 @@ Proiectul este format din următoarele servicii:
 
 ### 4. **Auth Service (`auth-service`)**
 - Gestionează autentificarea și autorizarea utilizatorilor.
-- Probabil implementează JWT (JSON Web Tokens) pentru securitate.
+- Implementează JWT (JSON Web Tokens) pentru securitate.
 
 ### 5. **Student Service (`student-service`)**
 - Gestionează informațiile despre studenți.
@@ -41,7 +39,6 @@ Proiectul este format din următoarele servicii:
 
 ### 9. **UI Service (`ui-service`)**
 - Interfața frontend care consumă serviciile REST.
-- Probabil o aplicație Spring MVC sau un client web extern integrat.
 
 ---
 ## 🌐 Porturi Microservicii
